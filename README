@@ -1,0 +1,46 @@
+The goal of the Earth project is to develop a compiler infrastructure and a
+set of programming languages suitable for server-side systems that serve many
+clients and perform computations on large amounts of data.
+
+The following subgoals exist. Reaching these is very important.
+
+ - There is an infrastructure for writing compilers. The infrastructure
+   provides a minimal internal representation and an expressive type system.
+   The type system features higher-kinded polymorphism and row polymorphism.
+   There is no runtime reflection or runtime type reification.
+
+ - There are three programming languages that somewhat resemble Common Lisp,
+   PowerShell, and Raku, respectively. Each is fully statically typed
+   according to the aforementioned type system, and interop is truly
+   seemless. These programming languages are developed as syntactic frontends
+   to the compiler. In addition, the compiler accepts a number of popular
+   IDLs as input, including JSON Schema, WSDL, and XSD. From these, it
+   generates data types, serialization boilerplate, clients, and servers.
+
+ - The programmer is given a great deal of control about the in-memory
+   representation of textual data. They can choose, for each string, its
+   encoding in memory. No confusion is involved in the design of text-related
+   libraries, and Unicode definitions are followed closely.
+
+ - Spawning threads and context switching between them does not necessarily
+   involve system calls. Thread groups can be created that share a heap and
+   garbage collector. Thread groups can only communicate by copying values,
+   or through compact regions. A garbage collection pause in one thread group
+   does not impact the progression of other thread groups.
+
+ - Top-level subroutines do not close over mutable state. This includes the
+   file system, the network, the random number generator, and so on. Instead,
+   these facilities are passed as arguments to the entry point, and must be
+   propagated by the programmer.
+
+The following non-goals exist.
+
+ - While the runtime will initially use Lua to provide garbage collection,
+   tail-call optimization, and green threads, interoperability with Lua is in
+   no way supported. The use of Lua is purely an implementation detail, and
+   immediately deprecated. A more efficient runtime system will be developed
+   in the future.
+
+ - Making it easy to develop small trivial applications is not necessary for
+   the development of large systems, and such a mould in fact result in
+   making it more difficult to develop large systems.
